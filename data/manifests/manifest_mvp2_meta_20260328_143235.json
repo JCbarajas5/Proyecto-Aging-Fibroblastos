@@ -1,0 +1,23 @@
+{
+  "timestamp": "20260328_143235",
+  "n_samples": 1919,
+  "n_rna": 345,
+  "n_met": 479,
+  "n_img": 973,
+  "n_rna_met": 109,
+  "n_rna_met_img": 32,
+  "n_pretrain": 715,
+  "n_finetune": 161,
+  "n_eval": 146,
+  "n_genes_selected": 2027,
+  "n_cpgs_selected": 10000,
+  "latent_dim": 256,
+  "rna_processed_shape": [
+    345,
+    2027
+  ],
+  "met_selected_shape": [
+    479,
+    10000
+  ]
+}

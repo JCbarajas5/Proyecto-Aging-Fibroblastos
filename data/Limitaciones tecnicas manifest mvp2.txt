@@ -1,0 +1,18 @@
+### Limitaciones y deuda técnica del manifest MVP-2
+
+El manifest de MVP-2 ya constituye una base operativa válida para el entrenamiento de encoders ómicos y para la futura construcción del estado celular latente multimodal (z). Sin embargo, todavía presenta una deuda técnica acotada que conviene documentar explícitamente para mantener trazabilidad metodológica y solidez de tesis.
+
+**Registros fuera de esquema de split.**
+El manifest maestro conserva 73 registros sin asignación de `fold`, correspondientes principalmente a muestras HEK293 y algunos casos con `cell_line` faltante o no elegible para los subconjuntos del proyecto. Estos registros no ingresan a los subsets de entrenamiento, validación o evaluación, por lo que no contaminan directamente los experimentos. Aun así, su presencia ensucia el artifacto maestro y deja ambigua su condición. La corrección recomendada es agregar columnas explícitas `is_excluded`, `exclude_reason` y `eligible_for_training`, de modo que el manifest distinga con claridad entre muestras incluidas, excluidas y fuera de dominio.
+
+**Auditoría de joins insuficientemente visible.**
+Aunque los joins entre metadata central, RNA-seq, metilación y biomarcadores ya funcionan de forma consistente, el manifest final aún no expone de manera visible columnas de auditoría equivalentes a las usadas en MVP-1, como `join_status` y `unmatched_reason`. Esto no afecta el entrenamiento, pero sí reduce la trazabilidad del pipeline y dificulta la defensa metodológica ante revisión de tesis. La acción correctiva es reexportar el manifest incorporando estas columnas de auditoría, incluso si la mayoría de los casos aparecen como correctamente emparejados.
+
+**Selección de HVGs y CpGs usando todas las muestras.**
+La selección de genes altamente variables y CpGs variables se realizó utilizando el conjunto completo disponible, es decir, sin restringir el cálculo al training split. Esto introduce una forma de leakage teórico, aunque de baja severidad, porque la selección fue no supervisada y basada únicamente en varianza, no en correlación con el target (`PDL`, `pdl_norm` o etiquetas biológicas). En términos prácticos, el impacto esperado es pequeño. Aun así, para una tesis rigurosa conviene documentar explícitamente que la selección fue unsupervised y, en una versión metodológicamente más estricta, recalcularla dentro de cada fold usando solo training data.
+
+**Trazabilidad incompleta de rutas físicas de matrices.**
+El manifest contiene columnas como `rna_matrix_col` y `met_matrix_col`, suficientes para enlazar cada muestra con su representación dentro de las matrices procesadas. Sin embargo, no incluye `matrix_path`, por lo que la reconstrucción completa del pipeline depende de conocer externamente la ubicación de los archivos fuente. Esto no afecta la validez del manifest como tabla maestra, pero sí representa un riesgo menor de reproducibilidad si los archivos cambian de nombre o ubicación. La solución adecuada no es inflar el CSV con rutas largas, sino registrar `matrix_path`, nombres de archivos y hashes en un archivo JSON de metadata asociado al manifest.
+
+**Conclusión.**
+La deuda técnica pendiente del manifest MVP-2 no compromete su uso actual para experimentación ni invalida su utilidad como base del modelo multimodal. Se trata de deuda de endurecimiento metodológico y de reproducibilidad, no de fallas estructurales del pipeline. En consecuencia, el manifest puede considerarse apto para iniciar la serie experimental de encoders ómicos, siempre que estas limitaciones queden documentadas y se resuelvan progresivamente antes del cierre formal del MVP-2 o de la integración definitiva hacia (z).

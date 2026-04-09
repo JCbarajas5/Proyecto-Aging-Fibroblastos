@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-03-20T16:48:07.149870",
+  "manifest": "manifest_mvp1_finetune_20260319_153838.csv",
+  "n_images": 393,
+  "n_folds": 3,
+  "model": "ResNet-34 (frozen) + head 256\u2192PDL",
+  "hyperparams": {
+    "batch_size": 16,
+    "epochs": 30,
+    "patience": 7,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "embedding_dim": 256,
+    "img_size": 224
+  },
+  "results_per_fold": {
+    "0.0": {
+      "n_val": 127,
+      "cell_lines_val": [
+        "hFB12"
+      ],
+      "trivial_mae": 0.23198145230021278,
+      "model_mae": "0.1284553",
+      "improvement_pct": 44.62691095124558,
+      "spearman": 0.7886508644074237,
+      "spearman_p": 3.5404251044775723e-28,
+      "r2": 0.587775319814682
+    },
+    "1.0": {
+      "n_val": 217,
+      "cell_lines_val": [
+        "hFB13",
+        "hFB14"
+      ],
+      "trivial_mae": 0.264948480326208,
+      "model_mae": "0.10608029",
+      "improvement_pct": 59.96191654891243,
+      "spearman": 0.8014303386377529,
+      "spearman_p": 6.835290427770395e-50,
+      "r2": 0.6899044513702393
+    },
+    "2.0": {
+      "n_val": 49,
+      "cell_lines_val": [
+        "hFB1",
+        "hFB11",
+        "hFB2"
+      ],
+      "trivial_mae": 0.2596143822449049,
+      "model_mae": "0.18944655",
+      "improvement_pct": 27.027712428812666,
+      "spearman": 0.6059090748141591,
+      "spearman_p": 3.962471226862563e-06,
+      "r2": 0.3883734941482544
+    }
+  },
+  "aggregated": {
+    "mean_mae_norm": 0.1413273811340332,
+    "std_mae_norm": 0.035230204463005066,
+    "mean_spearman": 0.7319967592864453,
+    "std_spearman": 0.08930997283651286,
+    "mean_improvement_pct": 43.87217997632356
+  },
+  "batch_probe": {
+    "study_part": {
+      "auc": 1.0,
+      "acc": 1.0,
+      "n_classes": 4
+    },
+    "cell_line": {
+      "auc": 0.9948245334203292,
+      "acc": 0.9312977099236641,
+      "n_classes": 6
+    },
+    "pdl_bins": {
+      "auc": 0.9959509977694759,
+      "acc": 0.9643765903307888,
+      "n_classes": 3
+    }
+  },
+  "pida_criteria": {
+    "spearman_ge_0.6": true,
+    "improvement_ge_25pct": true
+  }
+}

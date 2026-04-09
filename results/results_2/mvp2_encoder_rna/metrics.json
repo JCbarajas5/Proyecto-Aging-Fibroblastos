@@ -1,0 +1,168 @@
+{
+  "experiment": "MVP2_Experiment2_RNA_MLP_TwoStage",
+  "date": "2026-04-01T14:34:45.522040",
+  "hyperparameters": {
+    "input_dim": 2027,
+    "hidden_dim": 512,
+    "z_dim": 256,
+    "pdl_head_dim": 64,
+    "dropout_input": 0.5,
+    "dropout_hidden": 0.3,
+    "lr_pretrain": 0.001,
+    "wd_pretrain": 0.0001,
+    "epochs_pretrain": 200,
+    "patience_pretrain": 25,
+    "batch_size_pretrain": 64,
+    "lr_finetune": 0.0001,
+    "wd_finetune": 0.0001,
+    "epochs_finetune": 150,
+    "patience_finetune": 20,
+    "batch_size_finetune": 32,
+    "lambda_rank": 0.5,
+    "rank_margin": 0.1,
+    "seed": 42,
+    "n_folds": 3
+  },
+  "targets": {
+    "spearman_aspiracional": 0.811,
+    "spearman_piso": 0.6,
+    "worst_fold_aspiracional": 0.76,
+    "worst_fold_piso": 0.6,
+    "delta_auc_bruto": 0.2,
+    "delta_auc_condicional": 0.1,
+    "overfitting_gap": 0.15
+  },
+  "results_by_fold": {
+    "0": {
+      "pre_spearman": 0.9455482795878529,
+      "ft_spearman": 0.9370552818828681,
+      "ft_mae": 0.1380946934223175,
+      "ft_r2": 0.6894474923610687,
+      "overfitting_gap": 0.037843976783962674
+    },
+    "1": {
+      "pre_spearman": 0.9147052127351438,
+      "ft_spearman": 0.9366327474560592,
+      "ft_mae": 0.1548459678888321,
+      "ft_r2": 0.6180821061134338,
+      "overfitting_gap": 0.009116240398191922
+    },
+    "2": {
+      "pre_spearman": 0.8235668240844253,
+      "ft_spearman": 0.9818181818181818,
+      "ft_mae": 0.235473170876503,
+      "ft_r2": -0.15907764434814453,
+      "overfitting_gap": -0.01763610500452617
+    }
+  },
+  "summary": {
+    "spearman_mean": 0.9518354037190364,
+    "spearman_std": 0.021201727457016425,
+    "spearman_worst": 0.9366327474560592,
+    "worst_fold": 1
+  },
+  "batch_probe": {
+    "0": {
+      "auc_z": 0.5,
+      "auc_baseline": 0.5,
+      "delta_auc": 0.0
+    },
+    "1": {
+      "auc_z": 0.5,
+      "auc_baseline": 0.5,
+      "delta_auc": 0.0
+    }
+  },
+  "biomarcadores": [
+    {
+      "biomarker": "telomere_length",
+      "n_samples": 43,
+      "rho_brut": -0.18993316805681487,
+      "p_brut": 0.22249664072140143,
+      "rho_parcial": -0.08350951374207188,
+      "p_parcial": 0.5944465158305273
+    },
+    {
+      "biomarker": "mtdna_cn",
+      "n_samples": 43,
+      "rho_brut": 0.046058592570220484,
+      "p_brut": 0.769306449482636,
+      "rho_parcial": 0.13334340078526125,
+      "p_parcial": 0.3939691511337164
+    },
+    {
+      "biomarker": "clock_horvath1",
+      "n_samples": 43,
+      "rho_brut": -0.11733615221987316,
+      "p_brut": 0.4536486244569507,
+      "rho_parcial": -0.47961340984596806,
+      "p_parcial": 0.0011367332308932618
+    },
+    {
+      "biomarker": "clock_phenoage",
+      "n_samples": 43,
+      "rho_brut": 0.0919661733615222,
+      "p_brut": 0.5575145258961889,
+      "rho_parcial": -0.15116279069767444,
+      "p_parcial": 0.33324068806841894
+    },
+    {
+      "biomarker": "clock_grimage",
+      "n_samples": 43,
+      "rho_brut": -0.5268800966475385,
+      "p_brut": 0.00028368009710088166,
+      "rho_parcial": -0.6144669284204168,
+      "p_parcial": 1.1692652054431978e-05
+    }
+  ],
+  "baseline_comparison": {
+    "elastic_net_mean": 0.901,
+    "elastic_net_worst": 0.847,
+    "pct_of_baseline_mean": 105.64210918080315,
+    "pct_of_baseline_worst": 110.58237868430452
+  },
+  "suplementario": {
+    "pre_vs_ft_comparison": {
+      "0": {
+        "rho_on_ft_val": 0.9720853858784892,
+        "rho_on_pre_val": 0.937940263528953,
+        "n_ft_val": 28,
+        "n_pre_val": 111,
+        "delta": 0.03414512234953626
+      },
+      "1": {
+        "rho_on_ft_val": 0.949468085106383,
+        "rho_on_pre_val": 0.9217509650967197,
+        "n_ft_val": 47,
+        "n_pre_val": 181,
+        "delta": 0.02771712000966331
+      },
+      "2": {
+        "rho_on_ft_val": 0.9090909090909091,
+        "rho_on_pre_val": 0.7496747712074318,
+        "n_ft_val": 11,
+        "n_pre_val": 47,
+        "delta": 0.1594161378834773
+      }
+    },
+    "pca_variance_explained": [
+      0.6017209526236106,
+      0.14174204663817996,
+      0.09273764494230469,
+      0.07514184285982618,
+      0.017917630938431683,
+      0.0120705054754863,
+      0.009715272566785012,
+      0.00856786761172184,
+      0.0069471359285801695,
+      0.004591887148791701
+    ],
+    "batch_documentation": {
+      "delta_auc_mean": 0.3,
+      "delta_auc_fold0": 0.368,
+      "delta_auc_fold1": 0.231,
+      "status": "CONTAMINATED",
+      "narrative": "z_rna contains explicit domain information beyond PDL+cell_line"
+    }
+  }
+}

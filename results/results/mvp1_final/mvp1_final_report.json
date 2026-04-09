@@ -1,0 +1,193 @@
+{
+  "timestamp": "2026-03-21T22:37:34.892477",
+  "model": "A2: MAE + ranking(scalar) + consistency, ResNet-34 frozen, 10x only",
+  "dataset": {
+    "manifest": "manifest_mvp1_finetune_20260319_153838.csv",
+    "filter": "Control, Normal, 10x only",
+    "n_images": 393,
+    "n_cell_lines": 6,
+    "cell_lines": [
+      "hFB1",
+      "hFB11",
+      "hFB12",
+      "hFB13",
+      "hFB14",
+      "hFB2"
+    ],
+    "n_folds": 3
+  },
+  "hyperparams": {
+    "batch_size": 16,
+    "epochs": 30,
+    "patience": 7,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "embedding_dim": 256,
+    "img_size": 224,
+    "lambda_pdl": 1.0,
+    "lambda_rank": 0.3,
+    "lambda_cons": 0.2
+  },
+  "results_per_fold": {
+    "0.0": {
+      "n_val": 127,
+      "cell_lines_val": [
+        "hFB12"
+      ],
+      "trivial_mae": 0.23198145230021278,
+      "model_mae": 0.12127510458230972,
+      "improvement_pct": 47.72206856203112,
+      "spearman": 0.808557264845933,
+      "spearman_p": 1.4249840320238713e-30,
+      "r2": 0.6107581555843353
+    },
+    "1.0": {
+      "n_val": 217,
+      "cell_lines_val": [
+        "hFB13",
+        "hFB14"
+      ],
+      "trivial_mae": 0.264948480326208,
+      "model_mae": 0.11782366037368774,
+      "improvement_pct": 55.52959570531534,
+      "spearman": 0.7719791614284804,
+      "spearman_p": 3.4500642707077006e-44,
+      "r2": 0.667132169008255
+    },
+    "2.0": {
+      "n_val": 49,
+      "cell_lines_val": [
+        "hFB1",
+        "hFB11",
+        "hFB2"
+      ],
+      "trivial_mae": 0.2596143822449049,
+      "model_mae": 0.18429087102413177,
+      "improvement_pct": 29.0136126394251,
+      "spearman": 0.6189722989300781,
+      "spearman_p": 2.1292341361452077e-06,
+      "r2": 0.3804943561553955
+    }
+  },
+  "aggregated": {
+    "mean_spearman": 0.7331695750681639,
+    "std_spearman": 0.08211882780630811,
+    "worst_spearman": 0.6189722989300781,
+    "mean_mae": 0.1411298786600431,
+    "std_mae": 0.030551940071196784,
+    "mean_improvement_pct": 44.08842563559052
+  },
+  "batch_probe": {
+    "study_part": {
+      "raw": 0.9787725311632244,
+      "struct": 0.8497231969579562,
+      "full": 0.9884638701334959,
+      "delta": 0.13874067317553973
+    },
+    "pdl_bins": 0.9359620144246072,
+    "cell_line": 0.9727580680746484
+  },
+  "fusion_readiness": {
+    "telomere_length": {
+      "simple_rho": 0.10709003373692824,
+      "simple_p": 0.35392111324617775,
+      "partial_rho": -0.020321783479678217,
+      "partial_p": 0.8607462511836255,
+      "n": 77
+    },
+    "mtdna_cn": {
+      "simple_rho": 0.07121825542878174,
+      "simple_p": 0.5382257159215519,
+      "partial_rho": 0.22530101477469897,
+      "partial_p": 0.04882913038400942,
+      "n": 77
+    }
+  },
+  "pida_criteria": {
+    "spearman_ge_0.6": true,
+    "improvement_ge_25pct": true,
+    "worst_fold_ge_0.6": true
+  },
+  "limitations": [
+    {
+      "id": "L1",
+      "title": "Contaminaci\u00f3n residual de protocolo (study_part)"
+    },
+    {
+      "id": "L2",
+      "title": "Fold 2 limitado (49 im\u00e1genes, 3 donantes, PhaseI/III)"
+    },
+    {
+      "id": "L3",
+      "title": "Fusion-readiness d\u00e9bil con tel\u00f3mero"
+    },
+    {
+      "id": "L4",
+      "title": "Dataset limitado a fibroblastos d\u00e9rmicos in vitro"
+    }
+  ],
+  "experiments_summary": {
+    "A0 baseline (10x+20x)": {
+      "rho": 0.64,
+      "worst": 0.442,
+      "delta_sp": null,
+      "mtdna": "ns",
+      "finding": "Batch probe ~1.0 en todo. Shortcut learning confirmado."
+    },
+    "A0 baseline (10x)": {
+      "rho": 0.738,
+      "worst": 0.616,
+      "delta_sp": null,
+      "mtdna": "ns",
+      "finding": "Quitar magnificaci\u00f3n mejora todo. Fold 2 cruza 0.6."
+    },
+    "A1 rank (10x)": {
+      "rho": 0.754,
+      "worst": 0.617,
+      "delta_sp": 0.148,
+      "mtdna": "0.154 ns",
+      "finding": "Ranking mejora robustez. Mejor \u03c1 promedio."
+    },
+    ">>> A2 rank+cons (10x)": {
+      "rho": 0.736,
+      "worst": 0.617,
+      "delta_sp": 0.132,
+      "mtdna": "0.252 * (p=0.027)",
+      "finding": "\u00daNICA correlaci\u00f3n parcial significativa con mtDNA. MODELO SELECCIONADO."
+    },
+    "A3 DANN (10x)": {
+      "rho": 0.734,
+      "worst": 0.595,
+      "delta_sp": 0.125,
+      "mtdna": "0.193 ns",
+      "finding": "DANN baja batch marginalmente pero worst fold < 0.6. Pierde mtDNA."
+    },
+    "A4 DANN cond (10x+20x)": {
+      "rho": 0.638,
+      "worst": 0.399,
+      "delta_sp": 0.076,
+      "mtdna": "0.185 ns",
+      "finding": "\u0394AUC pasa \u22640.10 pero fold 2 colapsa. DANN demasiado agresivo."
+    },
+    "Two-Stage frozen": {
+      "rho": 0.648,
+      "worst": 0.589,
+      "delta_sp": 0.11,
+      "mtdna": "0.217 ns (p=0.058)",
+      "finding": "Fold 2 mejora +0.19 vs A4. Pierde especificidad en folds 0/1."
+    },
+    "Two-Stage partial FT": {
+      "rho": 0.649,
+      "worst": 0.559,
+      "delta_sp": 0.126,
+      "mtdna": "0.198 ns",
+      "finding": "Fine-tune parcial empeora fold 2. Overfitting al dominio mayoritario."
+    }
+  },
+  "contrato_interfaz": {
+    "input": "imagen brightfield 10x (224x224, RGB, ImageNet-normalized)",
+    "output_embedding": "torch.Tensor shape (1, 256)",
+    "output_pdl": "torch.Tensor shape (1,), rango [0, 1]",
+    "uso_para_fusion": "embedding \u2192 fusi\u00f3n PoE o concat+mask con encoders \u00f3micos"
+  }
+}

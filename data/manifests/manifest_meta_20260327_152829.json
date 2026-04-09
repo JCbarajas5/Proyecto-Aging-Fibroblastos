@@ -1,0 +1,34 @@
+{
+  "timestamp": "20260327_152829",
+  "n_total_images": 2433,
+  "n_with_pdl": 2261,
+  "n_failed_parse": 2,
+  "n_excluded": 832,
+  "cell_lines": [
+    "hFB1",
+    "hFB10",
+    "hFB11",
+    "hFB12",
+    "hFB13",
+    "hFB14",
+    "hFB2",
+    "hFB5",
+    "hFB6",
+    "hFB7",
+    "hFB8",
+    "hFB9"
+  ],
+  "phases": [
+    "PhaseI",
+    "PhaseII",
+    "PhaseIII",
+    "PhaseV"
+  ],
+  "pdl_range": [
+    2.82,
+    80.84
+  ],
+  "md5": "4ba8c025cf1c74fdc74e7634a39412bb",
+  "csv_path": "/Users/JCB/Documentos/Proyecto Integrador/data/Lifespan_Study_Data.csv",
+  "images_root": "/Volumes/SanDisk SSD 1TB/Storage/Data/Cellular_Lifespan_Study_Brightfield_Images"
+}

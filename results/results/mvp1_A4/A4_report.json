@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-03-21T12:23:00.594142",
+  "model": "A4: ranking_scalar + cons + DANN_mag + DANN_sp_cond",
+  "data": "all mags (10x+20x), 761 imgs",
+  "results_per_fold": {
+    "0.0": {
+      "n_val": 248,
+      "cell_lines_val": [
+        "hFB12"
+      ],
+      "trivial_mae": 0.23393305753366217,
+      "model_mae": "0.1453571",
+      "improvement_pct": 37.86380441987382,
+      "spearman": 0.7518812071910639,
+      "spearman_p": 2.1025976585592424e-46,
+      "r2": 0.47941213846206665
+    },
+    "1.0": {
+      "n_val": 427,
+      "cell_lines_val": [
+        "hFB13",
+        "hFB14"
+      ],
+      "trivial_mae": 0.2613230609704956,
+      "model_mae": "0.12794758",
+      "improvement_pct": 51.03854083163384,
+      "spearman": 0.7617052751773798,
+      "spearman_p": 4.005004366440967e-82,
+      "r2": 0.6010287404060364
+    },
+    "2.0": {
+      "n_val": 86,
+      "cell_lines_val": [
+        "hFB1",
+        "hFB11",
+        "hFB2"
+      ],
+      "trivial_mae": 0.2368621968967938,
+      "model_mae": "0.21106853",
+      "improvement_pct": 10.889737292124835,
+      "spearman": 0.39926386687359816,
+      "spearman_p": 0.0001400436764337766,
+      "r2": 0.0807763934135437
+    }
+  },
+  "aggregated": {
+    "mean_spearman": 0.6376167830806806,
+    "worst_spearman": 0.39926386687359816,
+    "mean_mae": 0.16145773231983185,
+    "mean_improvement": 33.26402751454416
+  },
+  "batch_probe": {
+    "study_part": {
+      "raw": 0.8742445834052572,
+      "struct": 0.8455925864035915,
+      "full": 0.921129052376902,
+      "delta": 0.07553646597331054
+    },
+    "magnification": {
+      "raw": 0.8266089998893683
+    },
+    "pdl_bins": {
+      "auc": 0.8643404880180396
+    },
+    "cell_line": {
+      "raw": 0.9459337588487243
+    }
+  },
+  "fusion_readiness": {
+    "telomere_length": {
+      "simple_rho": 0.1951944310446208,
+      "simple_p": 0.08890267614644728,
+      "partial_rho": -0.10910142489089857,
+      "partial_p": 0.3449011368617135,
+      "n": 77
+    },
+    "mtdna_cn": {
+      "simple_rho": -0.04939797045060203,
+      "simple_p": 0.6696443744813086,
+      "partial_rho": 0.18502550081497446,
+      "partial_p": 0.10718425293578672,
+      "n": 77
+    }
+  }
+}

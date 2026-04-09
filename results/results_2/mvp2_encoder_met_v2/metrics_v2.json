@@ -1,0 +1,179 @@
+{
+  "experiment": "MVP2_Exp3v2_Met_PCA_MLP_Austero",
+  "date": "2026-04-02T18:29:37.391523",
+  "hp": {
+    "hidden_dim": 128,
+    "z_dim": 128,
+    "fusion_dim": 256,
+    "pdl_head_dim": 32,
+    "dropout_input": 0.6,
+    "dropout_hidden": 0.4,
+    "lr_pretrain": 0.001,
+    "wd_pretrain": 0.001,
+    "epochs_pretrain": 200,
+    "patience_pretrain": 25,
+    "batch_size_pretrain": 64,
+    "lr_finetune": 0.0001,
+    "wd_finetune": 0.001,
+    "epochs_finetune": 150,
+    "patience_finetune": 15,
+    "batch_size_finetune": 32,
+    "lambda_rank": 0.5,
+    "rank_margin": 0.1,
+    "lambda_coral": 0.0
+  },
+  "targets": {
+    "spearman_aspiracional": 0.695,
+    "spearman_piso": 0.55,
+    "worst_fold_aspiracional": 0.55,
+    "worst_fold_piso": 0.45,
+    "delta_auc_condicional": 0.1,
+    "overfitting_gap": 0.15,
+    "clock_rho_parcial": 0.3
+  },
+  "pca_selected": "90pct",
+  "pca_variance": 0.9,
+  "summary": {
+    "spearman_mean": 0.864814936811929,
+    "spearman_std": 0.10146831931516669,
+    "spearman_worst": 0.7257051416050968,
+    "worst_fold": 2
+  },
+  "by_fold": {
+    "0": {
+      "pre": 0.9213512197192675,
+      "ft": 0.9648670210905427,
+      "mae": 0.3308490514755249,
+      "r2": -0.9667590856552124,
+      "gap": -0.8049828589035508
+    },
+    "1": {
+      "pre": 0.7828620015963462,
+      "ft": 0.9038726477401475,
+      "mae": 0.2359149158000946,
+      "r2": -0.07565975189208984,
+      "gap": -0.3843385069836178
+    },
+    "2": {
+      "pre": 0.4485389464941795,
+      "ft": 0.7257051416050968,
+      "mae": 0.23941467702388763,
+      "r2": 0.023163020610809326,
+      "gap": -0.26530539297523026
+    }
+  },
+  "batch_probe": {
+    "0": {
+      "auc_z": 1.0,
+      "auc_baseline": 0.7113552120669056,
+      "delta": 0.28864478793309445
+    },
+    "1": {
+      "auc_z": 0.9801215562404821,
+      "auc_baseline": 0.7868094037131761,
+      "delta": 0.19331215252730605
+    },
+    "2": {
+      "auc_z": 1.0,
+      "auc_baseline": 0.5384615384615384,
+      "delta": 0.46153846153846156
+    }
+  },
+  "biomarcadores": [
+    {
+      "biomarker": "clock_horvath1",
+      "n": 118,
+      "rho_brut": 0.09602711285046056,
+      "p_brut": 0.3009445743138041,
+      "rho_parcial": -0.0990471808019166,
+      "p_parcial": 0.28592632458750633
+    },
+    {
+      "biomarker": "clock_phenoage",
+      "n": 118,
+      "rho_brut": 0.37153808088266355,
+      "p_brut": 3.439099710720496e-05,
+      "rho_parcial": 0.21710326894773557,
+      "p_parcial": 0.01820219857011146
+    },
+    {
+      "biomarker": "clock_grimage",
+      "n": 118,
+      "rho_brut": -0.8732896911394926,
+      "p_brut": 5.019475440567916e-38,
+      "rho_parcial": -0.8370164232576995,
+      "p_parcial": 3.6930161809197556e-32
+    },
+    {
+      "biomarker": "clock_hannum",
+      "n": 118,
+      "rho_brut": -0.3523222584438451,
+      "p_brut": 9.127592142289936e-05,
+      "rho_parcial": -0.7297557875823081,
+      "p_parcial": 7.037413521277214e-21
+    },
+    {
+      "biomarker": "telomere_length",
+      "n": 118,
+      "rho_brut": -0.45627210144039104,
+      "p_brut": 2.0735694075965813e-07,
+      "rho_parcial": -0.3706645630872949,
+      "p_parcial": 3.600015574702484e-05
+    },
+    {
+      "biomarker": "mtdna_cn",
+      "n": 117,
+      "rho_brut": 0.030676317643003794,
+      "p_brut": 0.7426623011508977,
+      "rho_parcial": -0.1154370663429693,
+      "p_parcial": 0.215203124165572
+    }
+  ],
+  "pca_sweep": {
+    "85pct": {
+      "mean": 0.6174062490121632,
+      "worst": 0.3998098629082329,
+      "by_fold": {
+        "0": 0.74090650246425,
+        "1": 0.3998098629082329,
+        "2": 0.7115023816640066
+      }
+    },
+    "90pct": {
+      "mean": 0.7175840559365977,
+      "worst": 0.4485389464941795,
+      "by_fold": {
+        "0": 0.9213512197192675,
+        "1": 0.7828620015963462,
+        "2": 0.4485389464941795
+      }
+    },
+    "95pct": {
+      "mean": 0.624582631188341,
+      "worst": 0.4052048186535245,
+      "by_fold": {
+        "0": 0.9457983431215496,
+        "1": 0.522744731789949,
+        "2": 0.4052048186535245
+      }
+    }
+  },
+  "v1_reference": {
+    "mean": 0.5582,
+    "worst": 0.3035,
+    "by_fold": {
+      "0": 0.971,
+      "1": 0.4,
+      "2": 0.3035
+    },
+    "batch_delta": {
+      "0": 0.289,
+      "1": 0.212,
+      "2": 0.462
+    }
+  },
+  "baseline_reference": {
+    "mean": 0.772,
+    "worst": 0.61
+  }
+}

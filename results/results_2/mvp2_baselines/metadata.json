@@ -1,0 +1,29 @@
+{
+  "notebook": "mvp2_02_baselines_clasicos.ipynb",
+  "version": "1.0",
+  "date": "2026-03-29T13:34:49.029242",
+  "author": "Juan Carlos Barajas Alarc\u00f3n",
+  "manifest_used": "/Users/JCB/Documentos/Proyecto Integrador/data/manifests/manifest_mvp2_master_20260328_143235.csv",
+  "rna_matrix": "/Users/JCB/Documentos/Proyecto Integrador/data/manifests/mvp2_rna_selected_20260328_143235.csv.gz",
+  "met_matrix": "/Users/JCB/Documentos/Proyecto Integrador/data/manifests/mvp2_met_selected_20260328_143235.csv.gz",
+  "n_samples_rna": 339,
+  "n_samples_met": 479,
+  "folds": [
+    0,
+    1,
+    2
+  ],
+  "experiments_run": [
+    "1a: Elastic Net RNA",
+    "1b: XGBoost RNA",
+    "1c: Elastic Net Met crudo",
+    "1d: PCA + Elastic Net Met",
+    "1e: XGBoost Met (opcional)"
+  ],
+  "upper_bounds": {
+    "rna_elasticnet_spearman": 0.9013470909024294,
+    "rna_xgboost_spearman": 0.8520646362249095,
+    "met_elasticnet_crudo_spearman": 0.712279706673555,
+    "met_elasticnet_pca_spearman": 0.7721983683576826
+  }
+}

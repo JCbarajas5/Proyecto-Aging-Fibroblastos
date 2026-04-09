@@ -1,0 +1,150 @@
+{
+  "timestamp": "2026-03-29T13:34:23.788595",
+  "experiment": "mvp2_baselines_clasicos",
+  "rna": {
+    "elasticnet": {
+      "0": {
+        "spearman_train": 0.9937175626821478,
+        "spearman_val": 0.9238167319870854,
+        "mae_val": 0.15262385505472512,
+        "r2_val": 0.48278952664610963,
+        "alpha_best": 0.016249378038546383,
+        "l1_ratio_best": 0.1,
+        "n_features_nonzero": 133
+      },
+      "1": {
+        "spearman_train": 0.9784135232761212,
+        "spearman_val": 0.9335303135443866,
+        "mae_val": 0.07070862027504252,
+        "r2_val": 0.870962138051372,
+        "alpha_best": 0.006409608680792435,
+        "l1_ratio_best": 1.0,
+        "n_features_nonzero": 43
+      },
+      "2": {
+        "spearman_train": 0.9751209706053474,
+        "spearman_val": 0.8466942271758159,
+        "mae_val": 0.10601556806779466,
+        "r2_val": 0.6014140150538054,
+        "alpha_best": 0.008533504874475718,
+        "l1_ratio_best": 1.0,
+        "n_features_nonzero": 43
+      },
+      "aggregate": {
+        "spearman_mean": 0.9013470909024294,
+        "spearman_std": 0.03884833803229698,
+        "spearman_worst": 0.8466942271758159
+      }
+    },
+    "xgboost": {
+      "0": {
+        "spearman_train": 0.9995924768745097,
+        "spearman_val": 0.9218774337759932,
+        "mae_val": 0.07821121392011543,
+        "r2_val": 0.8084318809360103
+      },
+      "1": {
+        "spearman_train": 0.9996044761238095,
+        "spearman_val": 0.9258662997017073,
+        "mae_val": 0.07395951603366901,
+        "r2_val": 0.8444527530746517
+      },
+      "2": {
+        "spearman_train": 0.9992539990475319,
+        "spearman_val": 0.7084501751970277,
+        "mae_val": 0.11258977117535598,
+        "r2_val": 0.5351870064251527
+      },
+      "aggregate": {
+        "spearman_mean": 0.8520646362249095,
+        "spearman_std": 0.10156381516101111,
+        "spearman_worst": 0.7084501751970277
+      }
+    }
+  },
+  "met": {
+    "elasticnet_crudo": {
+      "0": {
+        "spearman_train": 0.9781636125183467,
+        "spearman_val": 0.9212157899606179,
+        "mae_val": 0.6046998627098501,
+        "r2_val": -5.196736072962659,
+        "alpha_best": 0.008002420174810725,
+        "l1_ratio_best": 0.95,
+        "n_features_nonzero": 41
+      },
+      "1": {
+        "spearman_train": 0.9993732580168161,
+        "spearman_val": 0.5270399495153018,
+        "mae_val": 0.23405725460405075,
+        "r2_val": -0.0728264970934065,
+        "alpha_best": 0.0025325143357491455,
+        "l1_ratio_best": 0.1,
+        "n_features_nonzero": 233
+      },
+      "2": {
+        "spearman_train": 0.999053282765085,
+        "spearman_val": 0.6885833805447454,
+        "mae_val": 0.32435700676463186,
+        "r2_val": -1.5034170043420247,
+        "alpha_best": 0.0028559346388551186,
+        "l1_ratio_best": 0.1,
+        "n_features_nonzero": 270
+      },
+      "aggregate": {
+        "spearman_mean": 0.712279706673555,
+        "spearman_std": 0.16179160505970847,
+        "spearman_worst": 0.5270399495153018
+      }
+    },
+    "elasticnet_pca": {
+      "0": {
+        "spearman_train": 0.8319446614973162,
+        "spearman_val": 0.8819739914088933,
+        "mae_val": 0.13106150095658514,
+        "r2_val": 0.5112882743906979,
+        "n_components": 9,
+        "variance_explained": 0.8702858934573149
+      },
+      "1": {
+        "spearman_train": 0.8727570810310682,
+        "spearman_val": 0.8241909212419812,
+        "mae_val": 0.18356607330564906,
+        "r2_val": 0.32285047106626985,
+        "n_components": 7,
+        "variance_explained": 0.8644616663095731
+      },
+      "2": {
+        "spearman_train": 0.9330148654814088,
+        "spearman_val": 0.6104301924221733,
+        "mae_val": 0.21076091840486297,
+        "r2_val": -0.04665405274347312,
+        "n_components": 8,
+        "variance_explained": 0.8572300823548362
+      },
+      "aggregate": {
+        "spearman_mean": 0.7721983683576826,
+        "spearman_std": 0.11679448576767937,
+        "spearman_worst": 0.6104301924221733
+      }
+    },
+    "pca_info": [
+      {
+        "fold": 0,
+        "n_components": 9,
+        "variance_explained": 0.8702858934573149
+      },
+      {
+        "fold": 1,
+        "n_components": 7,
+        "variance_explained": 0.8644616663095731
+      },
+      {
+        "fold": 2,
+        "n_components": 8,
+        "variance_explained": 0.8572300823548362
+      }
+    ],
+    "xgboost": null
+  }
+}

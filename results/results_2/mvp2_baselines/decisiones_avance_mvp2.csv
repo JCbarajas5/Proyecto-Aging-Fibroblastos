@@ -1,0 +1,3 @@
+Modalidad,Baseline elegido,Señal detectada,Worst fold,Decisión encoder,Target Spearman
+RNA-seq,Elastic Net (Spearman 0.901),Fuerte y lineal,0.847,AVANZAR (MLP simple 2 capas),≥ 0.811 (90% baseline)
+Metilación,PCA + Elastic Net (Spearman 0.772),"Moderada, requiere PCA",0.610,AVANZAR CON PRECAUCIÓN (PCA → MLP),≥ 0.695 (90% baseline)

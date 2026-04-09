@@ -1,0 +1,5 @@
+criterio,resultado,status
+Spearman promedio ≥ aspiracional (0.811),0.9518,PASA
+Spearman promedio ≥ piso (0.60),0.9518,PASA
+Worst fold ≥ piso (0.60),0.9366,PASA
+Max ΔAUC condicional < 0.1,+0.000,PASA

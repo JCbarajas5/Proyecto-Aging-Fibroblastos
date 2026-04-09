@@ -1,0 +1,43 @@
+RIESGOS ESTRUCTURALES:
+1. DISTRIBUCIÓN PDL NO HOMOGÉNEA ENTRE FOLDS
+   - Fold 2 tiene muestras más envejecidas (PDL mean más alto)
+   - Worst fold refleja extrapolación biológica, no solo error del modelo
+   - Trade-off: GroupKFold (anti-leakage) vs balance PDL
+
+2. STUDY_PART DESBALANCEADO ENTRE FOLDS
+   - Fold 2 dominado por study_part distinto
+   - Batch effect probable → ΔAUC batch probe obligatorio en Experimento 2
+   - Requiere análisis condicional (controlar PDL + cell_line)
+
+3. R² NEGATIVOS EN METILACIÓN CRUDO
+   - Spearman captura ranking (métrica principal)
+   - R² mide calibración de magnitud (secundaria)
+   - PCA mejora calibración pero Fold 2 sigue débil
+
+4. FOLDS DESBALANCEADOS (RNA FOLD 2: 47 MUESTRAS)
+   - Consecuencia de GroupKFold por cell_line
+   - Dataset pequeño (6 donantes) → balance perfecto imposible
+   - Overfitting esperado en modelos no-lineales (XGBoost ya colapsó)
+
+JUSTIFICACIÓN ENCODERS PROFUNDOS:
+Los encoders profundos (MLP) NO buscan superar Elastic Net en Spearman.
+
+OBJETIVO REAL: Aprender representación latente z fusionable.
+
+¿Por qué Elastic Net no sirve para fusión?
+  - Elastic Net es modelo lineal sin embedding intermedio
+  - No produce z_rna reutilizable para concat+mask con z_img/z_met
+  - No permite arquitectura multimodal
+
+¿Qué aporta el MLP?
+  - Embedding z_rna (256-dim) aprendido con supervisión PDL
+  - Compatible con fusión concat+mask (MVP-3)
+  - Permite batch probe, correlaciones cross-modal, UMAP
+
+CRITERIO DE ÉXITO:
+  ✓ Spearman ≥ 90% baseline (no colapsa)
+  ✓ z_rna correlaciona con z_img (alineación cross-modal)
+  ✓ ΔAUC batch probe tolerable (< 0.15)
+  ✓ Embedding tiene estructura interpretable (UMAP)
+
+Si MLP iguala o supera EN en Spearman → bonus, no requisito.
