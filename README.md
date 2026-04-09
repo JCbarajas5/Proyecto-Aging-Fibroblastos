@@ -1,80 +1,117 @@
 # Modelo latente multimodal de envejecimiento celular en fibroblastos
 
+![GitHub last commit](https://img.shields.io/badge/status-en%20desarrollo-yellow)
+![MVP-1](https://img.shields.io/badge/MVP--1-cerrado-success)
+![MVP-2](https://img.shields.io/badge/MVP--2-en%20curso-orange)
+![Modalidades](https://img.shields.io/badge/modalidades-imagen%20%7C%20RNA%20%7C%20metilaci%C3%B3n%20%7C%20biomarcadores-blue)
+![Repositorio](https://img.shields.io/badge/fusi%C3%B3n-concat%20%2B%20mask-informational)
+
 ![Diagrama del proyecto](figures/diagrama_modelo_latente.png)
 
-## Descripción general
-
-Este repositorio contiene el trabajo experimental y de ingeniería del proyecto de tesis de maestría orientado a la **inferencia del envejecimiento celular** mediante un **modelo latente multimodal**. El objetivo central es construir una representación latente `z` que integre señales de **imágenes brightfield**, **RNA-seq**, **metilación** y **biomarcadores escalares** para modelar el estado funcional de fibroblastos humanos primarios y, posteriormente, predecir **hallmarks of aging** y un **Índice Continuo de Daño (ICD)**.
-
-El proyecto está organizado por etapas. Primero se entrenan **encoders unimodales**. Después se alinean y fusionan sus representaciones para construir un embedding común robusto a modalidades faltantes. La célula modelo es el **fibroblasto humano primario** y el dataset principal es el **Cellular Lifespan Study** de Sturm et al.
+Repositorio del proyecto de tesis orientado a la **inferencia del envejecimiento celular** mediante un **modelo latente multimodal**. El objetivo es aprender una representación latente `z` que integre información de **imágenes brightfield**, **RNA-seq**, **metilación** y **biomarcadores escalares** para modelar el estado funcional de fibroblastos humanos primarios y servir como base para la predicción de **hallmarks of aging** y un **Índice Continuo de Daño (ICD)**.
 
 ---
 
-## Objetivo del proyecto
+## Tabla de contenido
+
+- [1. Resumen del proyecto](#1-resumen-del-proyecto)
+- [2. Estado actual](#2-estado-actual)
+- [3. Arquitectura del modelo](#3-arquitectura-del-modelo)
+- [4. Estructura del repositorio](#4-estructura-del-repositorio)
+- [5. Datasets y fuentes](#5-datasets-y-fuentes)
+- [6. Notebooks](#6-notebooks)
+- [7. Resultados y carpeta `results/`](#7-resultados-y-carpeta-results)
+- [8. Instalación](#8-instalación)
+- [9. Uso](#9-uso)
+- [10. Convenciones del proyecto](#10-convenciones-del-proyecto)
+- [11. Estado técnico real y limitaciones](#11-estado-técnico-real-y-limitaciones)
+- [12. Referencias](#12-referencias)
+
+---
+
+## 1. Resumen del proyecto
+
+El proyecto está construido por etapas. Primero se entrenan **encoders unimodales** por modalidad. Después se alinean y se fusionan sus embeddings para obtener un espacio latente común `z_fused`, robusto a modalidades faltantes.
+
+**Objetivo general**
 
 Construir un modelo latente multimodal `z` que permita:
 
 - predecir **edad replicativa** (`PDL`) desde imágenes brightfield,
-- aprender embeddings ómicos (`z_rna`, `z_met`, `z_bio`) alineados con envejecimiento,
-- fusionar modalidades con datos faltantes reales,
-- servir como base para predicción de **hallmarks of aging** e **ICD 0–1**.
+- entrenar encoders ómicos que produzcan embeddings útiles para fusión,
+- integrar modalidades con datos faltantes reales,
+- aproximar señales alineadas con **hallmarks of aging**,
+- sentar la base para un **Índice Continuo de Daño (ICD 0–1)**.
+
+**Célula modelo**
+
+- Fibroblasto humano primario.
+
+**Dataset principal**
+
+- *Cellular Lifespan Study* de Sturm et al. (Scientific Data, 2022).
 
 ---
 
-## Estado actual del proyecto
+## 2. Estado actual
 
 ### MVP-1 — Encoder visual
 
 **Estado:** cerrado.
 
-El encoder visual ya fue entrenado y evaluado. El modelo seleccionado es **A2**, que produce un embedding visual `z_img` de 256 dimensiones y una predicción de `PDL` a partir de imágenes brightfield 10x.
+El encoder visual fue entrenado sobre imágenes brightfield 10x para producir:
 
-Resumen del resultado final:
+- un embedding `z_img` de 256 dimensiones,
+- una predicción de `PDL`.
 
-- `Spearman` promedio: **0.733**
-- `Worst fold`: **0.619**
+**Modelo final:** `A2`
+
+**Resumen de resultados**
+
+- Spearman promedio: **0.733**
+- Worst fold: **0.619**
 - Mejora contra baseline trivial: **+44.1%**
-- Evidencia de fusion-readiness con biomarcador molecular: correlación parcial significativa con **mtDNA copy number**
+- Evidencia de *fusion-readiness*: correlación parcial significativa con **mtDNA copy number**
 
-Este encoder queda congelado como componente visual para etapas posteriores de fusión.
+Este encoder queda congelado como componente visual para la etapa multimodal posterior.
 
 ### MVP-2 — Encoders ómicos
 
 **Estado:** en curso.
 
-Se completaron los baselines clásicos para RNA y metilación. Eso ya fijó el techo realista del problema en esta fase.
+Ya se completaron los baselines clásicos que fijan el techo realista de esta fase.
 
-Resultados baseline:
+**Resultados baseline**
 
-- **RNA-seq**: Elastic Net con `Spearman = 0.901`
-- **Metilación**: PCA + Elastic Net con `Spearman = 0.772`
+- **RNA-seq:** Elastic Net con `Spearman = 0.901`
+- **Metilación:** PCA + Elastic Net con `Spearman = 0.772`
 
-Conclusión operativa:
+**Lectura técnica**
 
-- RNA tiene señal fuerte y bastante lineal.
-- Metilación requiere reducción dimensional previa.
-- El valor de los encoders profundos no está en vencer al baseline por unas centésimas, sino en producir un **embedding fusionable** y útil para el modelo multimodal final.
+- RNA tiene una señal fuerte y bastante lineal.
+- Metilación necesita reducción dimensional previa.
+- El valor de los encoders profundos no está en ganar unas centésimas de métrica, sino en generar un **embedding fusionable**.
 
 ### MVP-3 — Fusión multimodal
 
 **Estado:** pendiente.
 
-La fusión planeada ya no se basa en PoE como opción principal. Dado que el número de muestras con triple intersección fuerte es muy bajo, la estrategia actual es:
+La estrategia actual de fusión es:
 
 - **concat + mask**
 - entrenamiento con **drop-modality training**
 
-Esta decisión es más realista para el régimen de datos disponible.
+No se toma PoE como estrategia principal porque el número de muestras con triple intersección fuerte entre modalidades es demasiado bajo para calibrarlo bien.
 
 ---
 
-## Arquitectura conceptual
+## 3. Arquitectura del modelo
 
 ```text
 Imágenes brightfield  → Encoder visual (A2)   → z_img
 RNA-seq bulk          → Encoder RNA           → z_rna
-Metilación EPIC       → Encoder met           → z_met
-Telómero / mtDNA      → Encoder bio           → z_bio
+Metilación EPIC       → Encoder Met           → z_met
+Telómero / mtDNA      → Encoder Bio           → z_bio
                                   ↓
                        Fusión concat + mask
                                   ↓
@@ -83,9 +120,16 @@ Telómero / mtDNA      → Encoder bio           → z_bio
                  Hallmarks of Aging + ICD + PDL_hat
 ```
 
+**Salidas objetivo del sistema**
+
+- `PDL_hat`: predicción de edad replicativa
+- `z_img`, `z_rna`, `z_met`, `z_bio`: embeddings por modalidad
+- `z_fused`: embedding multimodal integrado
+- scores posteriores para hallmarks e ICD
+
 ---
 
-## Estructura sugerida del repositorio
+## 4. Estructura del repositorio
 
 ```text
 project/
@@ -118,77 +162,82 @@ project/
 └── docs/
 ```
 
----
+### Descripción rápida por carpeta
 
-## Qué contiene cada carpeta
-
-### `figures/`
-
-Contiene figuras del proyecto para documentación, reportes y README. La imagen principal del diagrama del modelo debe vivir aquí.
-
-Ejemplo:
-
-- `figures/diagrama_modelo_latente.png`
-
-### `data/`
-
-Agrupa los datos del proyecto, idealmente separados por nivel de procesamiento.
+#### `figures/`
+Contiene figuras del proyecto para documentación, reportes y README.
 
 #### `data/raw/`
-Datos descargados sin modificar o con transformación mínima.
+Datos descargados o copiados en estado fuente.
 
 Ejemplos:
-
-- matrices originales de RNA-seq,
-- matrices de metilación,
-- CSV centrales del estudio,
-- metadatos GEO,
-- archivos fuente de biomarcadores.
+- CSV centrales del estudio
+- matrices RNA-seq
+- matrices de metilación
+- metadata GEO
+- archivos fuente de biomarcadores
 
 #### `data/processed/`
-Datos ya normalizados, filtrados o transformados para modelado.
-
-Ejemplos:
-
-- matrices seleccionadas de genes,
-- subconjuntos de CpGs,
-- embeddings exportados,
-- tablas agregadas por muestra.
+Datos filtrados, normalizados o transformados para análisis y modelado.
 
 #### `data/manifests/`
-Carpeta crítica del pipeline. Aquí viven los manifests que funcionan como contrato de datos entre notebooks y modelos.
+Carpeta crítica del pipeline. Aquí viven los **manifests** que actúan como contrato de datos entre notebooks y modelos.
 
-Los modelos consumen **manifests**, no carpetas sueltas.
+Regla operativa del proyecto:
 
-Ejemplos esperados:
-
-- `manifest_full_*.csv`
-- `manifest_mvp2_master_*.csv`
-- `images_manifest.parquet`
-- `bulk_manifest.parquet`
-- `singlecell_manifest.parquet`
+> Los modelos consumen manifests, no carpetas sueltas.
 
 #### `data/external/`
-Datasets o recursos complementarios para validación externa o generalización.
+Datasets complementarios para validación externa o generalización.
 
-Ejemplos:
+#### `notebooks/`
+Trabajo exploratorio, ingeniería de datos, entrenamiento y evaluación por fase.
+
+#### `src/`
+Código reusable del proyecto.
+
+#### `results/`
+Modelos exportados, reportes, métricas, figuras y embeddings.
+
+#### `docs/`
+Documentación adicional, notas metodológicas y material de tesis si se decide centralizarlo aquí.
+
+---
+
+## 5. Datasets y fuentes
+
+### Dataset principal
+
+- **Cellular Lifespan Study** (*Sturm et al., 2022*)
+
+### Modalidades principales del proyecto
+
+- Imágenes brightfield
+- RNA-seq bulk
+- Metilación EPIC
+- Biomarcadores escalares como telómero y mtDNA
+
+### Recursos usados o previstos para validación
 
 - GSE115301
 - GSE113957
 - GSE130973
-- otros recursos auxiliares
+- otros recursos auxiliares según la fase de validación externa
+
+### Nota importante
+
+El proyecto tiene *missingness* real entre modalidades. No todas las muestras tienen imagen, RNA y metilación al mismo tiempo. Esa limitación no es un detalle molesto. Es una restricción estructural del problema y condiciona toda la estrategia de fusión.
 
 ---
 
-## Notebooks
+## 6. Notebooks
 
-La carpeta `notebooks/` concentra el trabajo exploratorio, el pipeline de ingesta y los experimentos por fase.
+La carpeta `notebooks/` concentra el trabajo experimental. Una organización razonable es la siguiente.
 
 ### `notebooks/01_manifests/`
 Construcción y auditoría de manifests.
 
-Incluye tareas como:
-
+Tareas típicas:
 - parsing de nombres de archivo,
 - joins con metadata,
 - validación de llaves,
@@ -198,150 +247,212 @@ Incluye tareas como:
 ### `notebooks/02_mvp1_visual/`
 Notebooks del encoder visual.
 
-Aquí se ubican los experimentos asociados a:
-
+Contenido esperado:
 - baseline visual,
 - ablations,
 - ranking loss,
 - consistency loss,
-- DANN y variantes,
+- variantes con control de batch,
 - modelo final A2,
 - exportación de `z_img`.
 
 ### `notebooks/03_mvp2_omics/`
 Notebooks de RNA, metilación y biomarcadores.
 
-Incluye:
-
+Contenido esperado:
 - exploración de matrices,
 - selección de genes y CpGs,
 - baselines clásicos,
 - entrenamiento de encoder RNA,
 - entrenamiento de encoder Met,
-- chequeos biológicos y batch probes.
+- batch probes,
+- chequeos biológicos.
 
 ### `notebooks/04_fusion/`
 Integración de embeddings unimodales.
 
 Contenido esperado:
-
 - concat + mask,
 - simulación de modalidades faltantes,
 - entrenamiento de capa de fusión,
 - predicción multimodal de `PDL`, hallmarks e ICD.
 
 ### `notebooks/05_evaluation/`
-Evaluación final, generalización externa y reportes.
+Evaluación final, generalización y reportes.
 
 Ejemplos:
-
 - métricas por fold,
 - análisis de error,
-- interpretabilidad,
-- comparación contra baselines,
-- visualizaciones del espacio latente.
+- visualizaciones del espacio latente,
+- pruebas de generalización externa,
+- interpretabilidad.
 
 ---
 
-## `results/`
+## 7. Resultados y carpeta `results/`
 
-Contiene salidas reproducibles del proyecto. Debe separar claramente resultados por etapa.
+La carpeta `results/` debe concentrar artefactos reproducibles del proyecto.
 
-### `results/mvp1/`
-Resultados del encoder visual.
+### Contenido esperado
 
-Ejemplos:
+- pesos de modelos entrenados,
+- archivos `.pt`, `.pth` o equivalentes,
+- embeddings exportados,
+- reportes de métricas,
+- figuras,
+- tablas de evaluación,
+- salidas intermedias de validación.
 
-- pesos de modelos,
-- embeddings `z_img`,
-- reportes por fold,
-- métricas finales,
-- artefactos de ablation.
+### Ejemplo de organización
 
-### `results/mvp2/`
-Resultados de los encoders ómicos.
+```text
+results/
+├── mvp1/
+│   ├── final/
+│   ├── baseline/
+│   ├── ablations/
+│   └── figures/
+├── mvp2/
+│   ├── baselines/
+│   ├── rna/
+│   ├── met/
+│   └── figures/
+├── fusion/
+├── reports/
+└── figures/
+```
 
-Ejemplos:
+### Estado actual esperado
 
-- modelos RNA y Met,
-- métricas baseline,
-- rankings de genes,
-- PCs, scores y reportes biológicos.
-
-### `results/fusion/`
-Resultados de la etapa multimodal.
-
-Ejemplos:
-
-- embeddings fusionados,
-- predicciones multimodales,
-- desempeño con modalidades faltantes.
-
-### `results/reports/`
-Reportes ejecutivos o técnicos exportados en PDF, DOCX o Markdown.
-
-### `results/figures/`
-Gráficas finales usadas en informes, tesis o presentaciones.
+- `mvp1/` debe contener el modelo A2 final y sus artefactos.
+- `mvp2/` debe contener baselines, pruebas de encoder RNA y pruebas posteriores de metilación.
 
 ---
 
-## Decisiones metodológicas importantes
+## 8. Instalación
 
-### 1. La unidad de análisis importa
+### Requisitos
 
-- En imágenes, la evaluación no debe hacerse con split aleatorio por imagen.
-- En ómicas, el split debe respetar donante, experimento o batch.
-- Si no haces esto, el modelo aprende atajos y luego parece listo cuando en realidad solo memorizó protocolo. Ciencia ficción estadística. Muy elegante. Muy inútil.
+- Python 3.13
+- entorno virtual recomendado
+- dependencias científicas estándar para manejo de datos, modelado y entrenamiento
 
-### 2. Los manifests son parte del modelo
+### Crear entorno virtual
 
-Este proyecto depende de una capa de ingeniería de datos fuerte. Los manifests no son un accesorio administrativo. Son el contrato que vuelve reproducible el pipeline completo.
+```bash
+python3.13 -m venv .venv
+source .venv/bin/activate
+```
 
-### 3. El objetivo no es ganar por décimas al baseline
+### Instalar dependencias
 
-En MVP-2, el baseline RNA ya es fuerte. El valor agregado del deep learning aquí es producir embeddings alineables y fusionables, no inflar métricas con fuegos artificiales.
+Si ya existe un archivo `requirements.txt`:
 
-### 4. PDL no es edad cronológica
+```bash
+pip install -r requirements.txt
+```
 
-`PDL` representa **edad replicativa in vitro**, no edad humana cronológica. Es un eje útil, pero distinto. Mezclarlos como si fueran lo mismo sería una trampa conceptual.
-
----
-
-## Fuentes principales del proyecto
-
-- **Cellular Lifespan Study** — Sturm et al., 2022
-- Imágenes brightfield del Cellular Lifespan Study
-- RNA-seq bulk y metilación del mismo estudio
-- Datasets externos para generalización y validación biológica
+Si el repositorio todavía no tiene un `requirements.txt` consolidado, esa es una deuda técnica razonable a resolver antes de publicar el repo como proyecto reproducible.
 
 ---
 
-## Estado de madurez por componente
+## 9. Uso
 
-| Componente | Estado |
-|---|---|
-| Pipeline de manifests | Avanzado |
-| MVP-1 encoder visual | Cerrado |
-| MVP-2 baseline RNA | Completo |
-| MVP-2 baseline metilación | Completo |
-| Encoder RNA profundo | En curso |
-| Encoder Met profundo | Siguiente etapa |
-| Fusión multimodal | Pendiente |
-| Hallmarks + ICD | Pendiente |
+La secuencia lógica de uso del repositorio es esta.
+
+### 1. Construir manifests
+
+```bash
+jupyter lab
+```
+
+Abrir los notebooks de `01_manifests/` y generar los manifests versionados a partir de los datos fuente.
+
+### 2. Ejecutar MVP-1 o cargar artefactos ya entrenados
+
+- entrenar o reutilizar el encoder visual A2,
+- exportar `z_img`.
+
+### 3. Ejecutar MVP-2
+
+- correr baselines de RNA y metilación,
+- entrenar encoders ómicos,
+- exportar `z_rna` y `z_met`.
+
+### 4. Entrenar fusión
+
+- integrar embeddings disponibles,
+- usar máscara de modalidades,
+- entrenar con *drop-modality*.
+
+### 5. Evaluar
+
+- medir métricas por fold,
+- revisar batch leakage,
+- inspeccionar correlaciones biológicas,
+- preparar reportes.
+
+### Ejemplo de flujo mínimo esperado
+
+```text
+raw data → manifests → encoder visual / encoder ómico → embeddings → fusión → evaluación
+```
 
 ---
 
-## Uso esperado de este repositorio
+## 10. Convenciones del proyecto
 
-Este repositorio busca servir para:
+### 1. Manifests primero
+Los modelos deben leer manifests. No deben depender de rutas ad hoc escritas a mano dentro de cada notebook.
 
-- centralizar código, datos procesados y resultados,
-- documentar el progreso experimental por MVP,
-- mantener trazabilidad entre manifests, notebooks y artefactos,
-- facilitar reproducibilidad para tesis, reportes y futuras extensiones.
+### 2. Splits con anti-leakage
+Los splits deben respetar estructura biológica y experimental. Un split aleatorio cómodo puede dar métricas bonitas y ciencia basura. Mala combinación.
+
+### 3. Versionado de artefactos
+Los exports relevantes deben llevar timestamp o convención clara de versión.
+
+### 4. Métricas no triviales
+No basta con reportar una sola métrica. El proyecto necesita:
+- desempeño predictivo,
+- estabilidad entre folds,
+- chequeos de batch,
+- lectura biológica mínima.
+
+---
+
+## 11. Estado técnico real y limitaciones
+
+Este repositorio no está en una fase de producto terminado. Está en una fase de investigación activa con resultados ya defendibles en MVP-1 y señal sólida para MVP-2.
+
+### Limitaciones relevantes
+
+- Existe contaminación residual por protocolo o dominio en la parte visual.
+- La intersección fuerte entre modalidades es baja.
+- `PDL` no es equivalente a edad cronológica.
+- Metilación requiere reducción dimensional agresiva para ser tratable.
+- Los encoders profundos en ómicas deben justificarse por valor de representación, no por fe religiosa en redes neuronales.
+
+### Decisión metodológica importante
+
+La fusión principal actual es **concat + mask**. No es la opción más elegante sobre papel. Es la opción más honesta para el régimen de datos real.
+
+---
+
+## 12. Referencias
+
+### Artículo base del dataset principal
+
+- Sturm et al. (2022). *Cellular Lifespan Study*. Scientific Data.
+
+### Conceptos centrales del proyecto
+
+- Hallmarks of Aging
+- representación latente multimodal
+- predicción de PDL en fibroblastos
+- integración multimodal con modalidades faltantes
 
 ---
 
 ## Nota final
 
-Este repositorio no representa un producto terminado. Representa un sistema experimental en construcción, con una primera etapa visual cerrada, una segunda etapa ómica en curso y una etapa de fusión multimodal todavía por consolidarse. Eso no es una debilidad. Es el estado real del proyecto, que en investigación vale más que un README inflado.
+Este repositorio documenta un proyecto de tesis en desarrollo. El foco no es solo obtener métricas altas. El foco es construir un pipeline defendible, reproducible y útil para una inferencia multimodal seria del envejecimiento celular.
